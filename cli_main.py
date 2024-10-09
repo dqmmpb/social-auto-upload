@@ -9,8 +9,9 @@ from uploader.douyin_uploader.main import douyin_setup, DouYinVideo
 from uploader.ks_uploader.main import ks_setup, KSVideo
 from uploader.tencent_uploader.main import weixin_setup, TencentVideo
 from uploader.tk_uploader.main_chrome import tiktok_setup, TiktokVideo
+from uploader.xhs_uploader.main import xhs_setup, XhsVideo
 from utils.base_social_media import get_supported_social_media, get_cli_action, SOCIAL_MEDIA_DOUYIN, \
-    SOCIAL_MEDIA_TENCENT, SOCIAL_MEDIA_TIKTOK, SOCIAL_MEDIA_KUAISHOU
+    SOCIAL_MEDIA_TENCENT, SOCIAL_MEDIA_TIKTOK, SOCIAL_MEDIA_KUAISHOU, SOCIAL_MEDIA_XHS
 from utils.constant import TencentZoneTypes
 from utils.files_times import get_title_and_hashtags
 
@@ -26,7 +27,7 @@ def parse_schedule(schedule_raw):
 async def main():
     # 主解析器
     parser = argparse.ArgumentParser(description="Upload video to multiple social-media.")
-    parser.add_argument("platform", metavar='platform', choices=get_supported_social_media(), help="Choose social-media platform: douyin tencent tiktok kuaishou")
+    parser.add_argument("platform", metavar='platform', choices=get_supported_social_media(), help="Choose social-media platform: douyin tencent tiktok kuaishou xhs")
 
     parser.add_argument("account_name", type=str, help="Account name for the platform: xiaoA")
     subparsers = parser.add_subparsers(dest="action", metavar='action', help="Choose action", required=True)
@@ -52,6 +53,7 @@ async def main():
         if args.publish_type == 1 and not args.schedule:
             parser.error("The schedule must must be specified for scheduled publishing.")
 
+    print(Path(BASE_DIR / "cookies" / f"{args.platform}_{args.account_name}.json"))
     account_file = Path(BASE_DIR / "cookies" / f"{args.platform}_{args.account_name}.json")
     account_file.parent.mkdir(exist_ok=True)
 
@@ -66,6 +68,8 @@ async def main():
             await weixin_setup(str(account_file), handle=True)
         elif args.platform == SOCIAL_MEDIA_KUAISHOU:
             await ks_setup(str(account_file), handle=True)
+        elif args.platform == SOCIAL_MEDIA_XHS:
+            await xhs_setup(str(account_file), handle=True)
     elif args.action == 'upload':
         title, tags = get_title_and_hashtags(args.video_file)
         video_file = args.video_file
@@ -90,6 +94,8 @@ async def main():
         elif args.platform == SOCIAL_MEDIA_KUAISHOU:
             await ks_setup(account_file, handle=True)
             app = KSVideo(title, video_file, tags, publish_date, account_file)
+        elif args.platform == SOCIAL_MEDIA_XHS:
+            app = XhsVideo(title, video_file, tags, publish_date, account_file)
         else:
             print("Wrong platform, please check your input")
             exit()

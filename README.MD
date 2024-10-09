@@ -178,12 +178,15 @@ generate_schedule_time_next_day 默认从第二天开始（此举为避免选择
 该实现，借助ReaJason的[xhs](https://github.com/ReaJason/xhs)，再次感谢。
 
 1. 目录结构同上
-2. cookie获取，可使用chrome插件：EditThisCookie
-- 设置导出格式
+2. cookie获取，有三种方式
+3. 第一种：可使用chrome插件：EditThisCookie
+- 设置导出格式为JSON
 ![Alt text](media/20231009111131.png)
 - 导出
 ![Alt text](media/20231009111214.png)
-3. 黏贴至 uploader/xhs_uploader/accounts.ini文件中
+- 黏贴至 cookies/xhs_uploader/account.json 文件中的cookies属性上（模板 uploader/xhs_uploader/account.json.template）
+4. 第二种：account.json文件也可以通过 python cli_main.py xhs 26210964168 login 命令生成，手机号/验证码登录后，在调试器中点击继续，cookies文件位置（cookies/xhs_26210964168.json），其中26210964168为小红书账号。将json中的内容复制到cookies/xhs_uploader/account.json中即可
+5. 第三种：account.json文件也可以通过 get_xhs_cookie.py 生成，手机号/验证码登录后，在调试器中点击继续，生成acookies/xhs_uploader/account.json
 
 
 #### 解释与注意事项：
