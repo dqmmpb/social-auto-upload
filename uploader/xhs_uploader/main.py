@@ -61,7 +61,8 @@ async def xhs_cookie_gen(account_file):
         await context.storage_state(path=account_file)
 
         await page.goto("https://creator.xiaohongshu.com/publish/publish?source=official")
-        await page.pause()
+        # await page.pause()
+        await page.wait_for_selector("div.publish-video a.btn:text('发布笔记')", timeout=5000)  # 等待5秒
         # 点击调试器的继续，保存cookie
         await context.storage_state(path=account_file)
 
