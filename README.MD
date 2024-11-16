@@ -185,7 +185,7 @@ generate_schedule_time_next_day 默认从第二天开始（此举为避免选择
 - 导出
 ![Alt text](media/20231009111214.png)
 - 黏贴至 cookies/xhs_uploader/account.json 文件中的cookies属性上（模板 uploader/xhs_uploader/account.json.template）
-4. 第二种：account.json文件也可以通过 python cli_main.py xhs <小红书账号> login 命令生成，手机号/验证码登录后，在调试器中点击继续，cookies文件位置（cookies/xhs_小红书账号.json）。将json中的内容复制到cookies/xhs_uploader/account.json中即可
+4. 第二种：account.json文件也可以通过 python cli_main.py xhs 小红书账号 login 命令生成，手机号/验证码登录后，在调试器中点击继续，cookies文件位置（cookies/xhs_小红书账号.json）。将json中的内容复制到cookies/xhs_uploader/account.json中即可
 5. 第三种：account.json文件也可以通过 get_xhs_cookie.py 生成，手机号/验证码登录后，在调试器中点击继续，生成acookies/xhs_uploader/account.json
 
 
